@@ -1,43 +1,42 @@
-# Delta India Exchange Data Pipeline
+# Delta India Exchange Data Pipeline (Automated)
 
-An automated system to collect and store market data from Delta India Exchange.
+This project is like an automatic diary for the Indian crypto market. It wakes up every few hours, records the latest price movements, and saves them safely in a file so you never miss a thing.
 
-## Overview
+### How It Works (Simplified)
+Imagine you have a robot assistant:
+1.  **It Wakes Up**: Every 6 hours, your robot assistant automatically checks the Delta India Exchange.
+2.  **It Checks the Diary**: It looks at your current files (like `BTC_INR.csv`) to see the last time it wrote something down.
+3.  **It Records the Gap**: It asks the exchange for all the "missing" price info since it last checked.
+4.  **It Appends and Saves**: It adds these new rows to the bottom of the file and saves them.
 
-This project automatically gathers price history (Open, High, Low, Close, and Volume) from Delta India Exchange. It is designed to run by itself every few hours and save the information into simple files that you can open in Excel or use for analysis.
+**The best part?** You don't have to touch anything. It runs entirely on its own, for free!
 
-## Features
+---
 
-- **Automatic Updates**: The system runs on a schedule without needing your computer to be on.
-- **Efficient Saving**: It only downloads new information that hasn't been saved yet.
-- **Easy Storage**: Data is saved as CSV files, which are common and easy to use.
-- **No Complex Setup**: Designed to work directly on GitHub with minimal configuration.
+### Folder Contents
 
-## Folder Contents
+#### 1. data/ohlcv/ (The Price Records)
+This is where the real data lives. Each coin (like Bitcoin or Ethereum) has its own file.
+*   **1 Row = 1 Hour**: Every line in these files shows exactly what happened in that 1-hour "candle" (the price it started at, its peak, its lowest point, and the final price).
+*   **Volume**: It also shows how much was actually traded during that hour.
 
-- **data**: This is where the price history is stored.
-- **docs**: Contains technical details about how the system is built.
-- **fetch_data.py**: The main program that talks to the exchange.
-- **.github/workflows**: Instructions for GitHub to run the program automatically.
+#### 2. data/products.csv (The Master List)
+Think of this as the Master Menu Card of the exchange.
+*   It lists over 1,100 coins that you could track.
+*   If you ever want to add a new coin to your "diary", you just find its name in this list and add it to the script!
 
-## Getting Started
+---
 
-1. **Copy the code**: Use the "Clone" or "Download" button on GitHub.
-2. **Setup**: If you are a developer, install the requirements using `pip install -r requirements.txt`.
-3. **Automate**: Upload this to your own GitHub account to start the automatic updates.
+### Quick Setup (For Non-Techies)
+1.  **Clone the Repo**: Get a copy of this folder.
+2.  **Add Your Keys**: Create a small file named `.env` and paste your Delta API Key and Secret inside (like a username and password).
+3.  **Push to GitHub**: Once you push this code to your own GitHub account, the "Robot" starts working immediately.
 
-## GitHub Configuration
+### License
+This project is licensed under the MIT License - [License](LICENSE).
 
-To make the updates work automatically, you may need to add your API Key and Secret from Delta Exchange into your GitHub repository settings under "Secrets".
-
-## Technical Documentation
-
-- [High-Level Design](docs/HLD.md)
-- [Low-Level Design](docs/LLD.md)
-
-## License
-
-This project is licensed under the [MIT License](LICENSE). See the LICENSE file for details.
+---
+Built by [Tushar Bhardwaj](https://minianonlink.vercel.app/tusharbhardwaj)
 
 ---
 Built by [Tushar Bhardwaj](https://minianonlink.vercel.app/tusharbhardwaj)
