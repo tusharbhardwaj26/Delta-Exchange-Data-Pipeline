@@ -37,6 +37,3 @@ This project is licensed under the MIT License - [License](LICENSE).
 
 ---
 Built by [Tushar Bhardwaj](https://minianonlink.vercel.app/tusharbhardwaj)
-
----
-Built by [Tushar Bhardwaj](https://minianonlink.vercel.app/tusharbhardwaj)
