@@ -8,12 +8,15 @@ on:
 jobs:
   fetch-data:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/checkout@v3
+        uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
