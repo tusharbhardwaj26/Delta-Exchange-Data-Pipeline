@@ -11,30 +11,30 @@ The overarching system is designed asynchronously to maximize throughput while a
 
 ```mermaid
 flowchart TD
-    subgraph Data Sources
+    subgraph "Data Sources"
       A[Delta Exchange API]
     end
     
-    subgraph Core Pipeline (Node.js)
+    subgraph "Core Pipeline (Node.js)"
       B[fetchInstruments Module]
       C[fetchCandles Module]
       D[Process Pipeline Backfill/Daily]
     end
     
-    subgraph Persistence Layer
+    subgraph "Persistence Layer"
       E[(SQLite Database)]
       F[(QuestDB Database)]
     end
     
-    A <-->|HTTP Requests| B
-    A <-->|HTTP Requests| C
+    A <--> B
+    A <--> C
     
-    B -->|Persist Metadata| E
-    D -->|Coordinate| B
-    D -->|Iterate Instruments| E
-    D -->|Coordinate| C
+    B --> E
+    D --> B
+    D --> E
+    D --> C
     
-    C -->|Flush ILP Batches| F
+    C --> F
 ```
 
 ## 3. Data Flow
