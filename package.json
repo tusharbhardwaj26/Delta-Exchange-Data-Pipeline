@@ -1,0 +1,28 @@
+{
+  "name": "btc-eth-options-pipeline",
+  "version": "1.0.0",
+  "description": "Production-grade BTC/ETH options data pipeline using Delta Exchange API + QuestDB",
+  "main": "index.js",
+  "scripts": {
+    "backfill":           "node scripts/run-backfill.js",
+    "backfill:btc":       "node scripts/run-backfill.js --underlying=BTC",
+    "backfill:eth":       "node scripts/run-backfill.js --underlying=ETH",
+    "daily-update":       "node scripts/run-daily-update.js",
+    "daily-update:sync":  "node scripts/run-daily-update.js --sync-first",
+    "sync-instruments":   "node -e \"require('dotenv').config(); const {syncInstruments}=require('./src/fetchers/fetchInstruments'); syncInstruments().then(()=>process.exit(0));\""
+  },
+  "keywords": ["questdb", "delta-exchange", "options", "bitcoin", "ethereum", "data-pipeline"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@questdb/nodejs-client": "^4.2.0",
+    "axios": "^1.14.0",
+    "better-sqlite3": "^12.8.0",
+    "dayjs": "^1.11.20",
+    "dotenv": "^17.4.0",
+    "p-limit": "^5.0.0",
+    "pg": "^8.20.0",
+    "winston": "^3.19.0"
+  }
+}
