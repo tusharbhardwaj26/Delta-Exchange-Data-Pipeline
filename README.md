@@ -5,7 +5,7 @@
 ![SQLite](https://img.shields.io/badge/SQLite-Metadata-lightgrey)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-A production-grade, highly concurrent Node.js data pipeline engineered to collect, index, and store high-resolution 1-minute OHLCV (Open, High, Low, Close, Volume) candle data for **Bitcoin (BTC)** and **Ethereum (ETH)** options via the Delta Exchange India API. 
+A production-grade, highly concurrent Node.js data pipeline engineered to collect, index, and store high-resolution 1-minute Mark Price candle data for **Bitcoin (BTC)** and **Ethereum (ETH)** options via the Delta Exchange India API. 
 
 This system supports comprehensive historical backfilling (spanning from 2020) and automated nightly data synchronization.
 
@@ -17,7 +17,7 @@ This system supports comprehensive historical backfilling (spanning from 2020) a
 Imagine trying to download the price history of thousands of individual stock options, minute-by-minute, over the span of several years. It's a massive amount of data. This project is a "data engine" that automatically connects to a cryptocurrency exchange (Delta Exchange), finds every single Bitcoin and Ethereum option constraint that has ever existed, and safely downloads its minute-by-minute trading history. 
 
 **Why is it useful?**
-To build trading algorithms, research market trends, or backtest financial strategies, analysts need massive amounts of historical data. This pipeline automates the grueling work of collecting that data, organizing it perfectly, and storing it into an extremely fast database (QuestDB) so researchers can instantly ask questions like: *"What was the average trading volume of Bitcoin call options exactly one hour before expiration in 2022?"*
+To build trading algorithms, research market trends, or backtest financial strategies, analysts need massive amounts of historical data. This pipeline automates the collection of **Mark Price** data, which is a smoothed, manipulation-resistant price used by professional traders to avoid "fake" price spikes. It organizes this data perfectly and stores it into an extremely fast database (QuestDB).
 
 **How does it work?**
 1. **The Scout:** It first searches the exchange for a master list of all contracts. 

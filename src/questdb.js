@@ -147,6 +147,17 @@ async function getTotalCandleCount() {
   }
 }
 
+// ─── Truncate candles table ───────────────────────────────────────────────────
+async function truncateCandles() {
+  const pg = await getPgClient();
+  try {
+    await pg.query(`TRUNCATE TABLE candles`);
+    logger.info('QuestDB table "candles" truncated successfully');
+  } finally {
+    await pg.end();
+  }
+}
+
 module.exports = {
   initTables,
   getSender,
@@ -155,4 +166,5 @@ module.exports = {
   getLastCandleTimestamp,
   getCandleCount,
   getTotalCandleCount,
+  truncateCandles,
 };

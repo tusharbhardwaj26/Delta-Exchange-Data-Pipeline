@@ -35,7 +35,8 @@
     *   `start`: UNIX TIMESTAMP SECONDS
     *   `end`: UNIX TIMESTAMP SECONDS
     *   `symbol`: Native API Symbol (e.g., `C-BTC-50000-261226`)
-*   **Constraint Management Module:** Includes a Fast-Forward pre-fetcher mapping `resolution: 1d` to extract exact `timeJump` timestamps, bypassing thousands of empty day crawls before initializing `async fetchCandlesChunked()` 1m generator bounds.
+*   **Constraint Management Module:** Includes a Fast-Forward pre-fetcher mapping `resolution: 1d` to extract exact `timeJump` timestamps, bypassing thousands of empty day crawls before initializing `async fetchCandlesChunked()` 1m generator bounds. All symbol requests are prefixed with `MARK:` to retrieve Mark Price data.
+*   **Data Transformation:** Mark Price response only provides a `close` value. The system maps this single value to `open`, `high`, `low`, and `close` in the database to maintain schema compatibility. `volume` is defaulted to `0`.
 
 ## 3. Database Schemas
 

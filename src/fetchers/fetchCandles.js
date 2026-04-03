@@ -27,7 +27,7 @@ async function* fetchCandlesChunked(symbol, startTs, endTs) {
   let timeJump = null;
   try {
     const ffData = await delta.get('/v2/history/candles', {
-      symbol,
+      symbol: `MARK:${symbol}`,
       resolution: '1d', // 1d allows checking 2000 days in 1 API call!
       start: chunkStart,
       end: endTs,
@@ -60,7 +60,7 @@ async function* fetchCandlesChunked(symbol, startTs, endTs) {
     let data;
     try {
       data = await delta.get('/v2/history/candles', {
-        symbol,
+        symbol: `MARK:${symbol}`,
         resolution: config.pipeline.resolution,
         start: chunkStart,
         end: chunkEnd,
@@ -90,15 +90,18 @@ async function* fetchCandlesChunked(symbol, startTs, endTs) {
       // Delta API returns: time (unix s), open, high, low, close, volume
       const rows = candles
         .filter((c) => c && c.time)
-        .map((c) => ({
-          time:   parseInt(c.time, 10),
-          symbol,
-          open:   parseFloat(c.open)   || 0,
-          high:   parseFloat(c.high)   || 0,
-          low:    parseFloat(c.low)    || 0,
-          close:  parseFloat(c.close)  || 0,
-          volume: parseFloat(c.volume) || 0,
-        }));
+        .map((c) => {
+          const price = parseFloat(c.close) || 0;
+          return {
+            time:   parseInt(c.time, 10),
+            symbol,
+            open:   price,
+            high:   price,
+            low:    price,
+            close:  price,
+            volume: 0, // Mark price response from Delta has null volume
+          };
+        });
 
       logger.debug(`${symbol}: ${rows.length} candles [${fmtTs(chunkStart)} → ${fmtTs(chunkEnd)}]`);
 

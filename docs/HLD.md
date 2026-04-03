@@ -1,7 +1,7 @@
 # High-Level Design (HLD): BTC/ETH Options Data Pipeline
 
 ## 1. Introduction
-The purpose of this document is to outline the architecture of the production-grade data pipeline used to fetch, store, and backfill historical 1-minute OHLCV candle data for BTC and ETH options via the Delta Exchange API. 
+The purpose of this document is to outline the architecture of the production-grade data pipeline used to fetch, store, and backfill historical 1-minute Mark Price candle data for BTC and ETH options via the Delta Exchange API. 
 
 ## 2. System Architecture
 
@@ -42,7 +42,7 @@ flowchart TD
 1. **Initialization:** The system fetches all option contracts (live and expired) using cursor pagination from Delta Exchange (`GET /v2/products`).
 2. **Metadata Storage:** Contract metadata (such as strike price, active state, expiration date) is written locally using `better-sqlite3` to prevent overhead on our time-series DB.
 3. **Execution Loop:** A concurrency throttler (`p-limit`) launches multiple async fetching loops querying `GET /v2/history/candles` for assigned symbols in one-day chunks.
-4. **Time-series Ingestion:** Raw fetched arrays are converted into nanosecond format and piped asynchronously via isolated **HTTP Senders** over the Influx Line Protocol (ILP) using `@questdb/nodejs-client` to QuestDB, safely preventing backpressure loops and TCP stream interlacing.
+4. **Time-series Ingestion:** Raw Mark Price data is fetched using the `MARK:` symbol prefix. Since Mark Price is a single point index, we map it to `Open`, `High`, `Low`, and `Close` fields to maintain a standard OHLC structure. The data is converted into nanosecond format and piped asynchronously via isolated **HTTP Senders** over the Influx Line Protocol (ILP) using `@questdb/nodejs-client` to QuestDB, safely preventing backpressure loops and TCP stream interlacing.
 
 ## 4. Key Design Decisions
 
