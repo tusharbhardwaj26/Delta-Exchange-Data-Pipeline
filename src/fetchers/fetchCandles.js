@@ -90,18 +90,15 @@ async function* fetchCandlesChunked(symbol, startTs, endTs) {
       // Delta API returns: time (unix s), open, high, low, close, volume
       const rows = candles
         .filter((c) => c && c.time)
-        .map((c) => {
-          const price = parseFloat(c.close) || 0;
-          return {
-            time:   parseInt(c.time, 10),
-            symbol,
-            open:   price,
-            high:   price,
-            low:    price,
-            close:  price,
-            volume: 0, // Mark price response from Delta has null volume
-          };
-        });
+        .map((c) => ({
+          time:   parseInt(c.time, 10),
+          symbol,
+          open:   parseFloat(c.open)  || 0,
+          high:   parseFloat(c.high)  || 0,
+          low:    parseFloat(c.low)   || 0,
+          close:  parseFloat(c.close) || 0,
+          volume: 0, // Mark price naturally has no volume
+        }));
 
       logger.debug(`${symbol}: ${rows.length} candles [${fmtTs(chunkStart)} → ${fmtTs(chunkEnd)}]`);
 
